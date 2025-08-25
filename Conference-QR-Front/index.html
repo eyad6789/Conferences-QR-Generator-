@@ -4,10 +4,89 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <meta name="theme-color" content="#667eea" />
+    <meta name="description" content="Generate your conference ticket for Coding Conf 2025 - A beautiful bilingual experience with QR codes" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Conference Ticket Generator - Coding Conf 2025" />
+    <meta property="og:description" content="Secure your spot at next year's biggest coding conference. Beautiful bilingual ticket generator with QR codes." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://your-domain.com" />
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Conference Ticket Generator - Coding Conf 2025" />
+    <meta name="twitter:description" content="Secure your spot at next year's biggest coding conference." />
+    <meta name="twitter:image" content="/twitter-image.png" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Ticket Generator" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <title>Conference Ticket Generator | Coding Conf 2025</title>
   </head>
   <body>
+    <noscript>
+      <div style="padding: 2rem; text-align: center; color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <h1>JavaScript Required</h1>
+        <p>You need to enable JavaScript to run this application.</p>
+        <hr style="margin: 2rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.3); width: 200px;">
+        <p dir="rtl">تحتاج إلى تمكين JavaScript لتشغيل هذا التطبيق.</p>
+      </div>
+    </noscript>
+    
+    <!-- Initial loading indicator -->
+    <div id="initial-loader" class="initial-loader">
+      <div class="loader-spinner"></div>
+      <div class="loader-text">Loading Conference Ticket Generator...</div>
+    </div>
+    
     <div id="root"></div>
+    
     <script type="module" src="/src/main.jsx"></script>
+    
+    <script>
+      // Remove initial loader when React app loads
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.body.classList.add('app-loaded');
+          const loader = document.getElementById('initial-loader');
+          if (loader) {
+            setTimeout(() => loader.remove(), 500);
+          }
+        }, 1000);
+      });
+      
+      // PWA install prompt
+      let deferredPrompt;
+      
+      window.addEventListener('beforeinstallprompt', (e) => {
+        deferredPrompt = e;
+        e.preventDefault();
+        console.log('PWA install prompt available');
+      });
+
+      // Service worker registration (if you want PWA features)
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
